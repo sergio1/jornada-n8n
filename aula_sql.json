@@ -1,0 +1,103 @@
+{
+  "name": "aula sql",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -500,
+        -40
+      ],
+      "id": "9d5eb7e0-a737-4486-82dc-15928119aaa0",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "gastos"
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -260,
+        -160
+      ],
+      "id": "7342cec0-e688-4888-88aa-6526c8e8079d",
+      "name": "Get many rows",
+      "credentials": {
+        "supabaseApi": {
+          "id": "FoalJR5WTtKSfMop",
+          "name": "Supabase aula sql"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "value": "public",
+          "mode": "list",
+          "cachedResultName": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "gastos",
+          "mode": "list",
+          "cachedResultName": "gastos"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -260,
+        60
+      ],
+      "id": "0cc6a477-f64c-4613-a8e4-dc8534472711",
+      "name": "Select rows from a table",
+      "credentials": {
+        "postgres": {
+          "id": "yC5TfRKlGsXf9JhQ",
+          "name": "supabase n8n"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get many rows",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Select rows from a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a7c63186-0126-4a7c-916d-9ff5169650bb",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "41f3963a1659ffa65fa8266a85f548897e424798673850a8086d02a3282e24ce"
+  },
+  "id": "ylKIuSE0DbjRKfND",
+  "tags": []
+}

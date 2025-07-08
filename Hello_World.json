@@ -1,0 +1,99 @@
+{
+  "name": "Hello World",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        0
+      ],
+      "id": "b1ffcd9f-bf1c-4f96-a36a-a75b4482400e",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "getAllPeople"
+      },
+      "type": "n8n-nodes-base.n8nTrainingCustomerDatastore",
+      "typeVersion": 1,
+      "position": [
+        -20,
+        0
+      ],
+      "id": "8a1282d4-9289-469a-b005-2b40edf0007e",
+      "name": "Customer Datastore (n8n training)"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "02dd5b09-f721-4195-bfd6-7506171c5652",
+              "name": "customer_id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "bab3ee51-db16-4190-953e-bd700ad01b0f",
+              "name": "customer_name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "3f66143c-1b30-41fc-aeaf-ee58cca87518",
+              "name": "customer_notes",
+              "value": "={{ $json.notes }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        200,
+        0
+      ],
+      "id": "e2977b01-09d9-45b2-b6b9-eb6422f8cb83",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Customer Datastore (n8n training)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Customer Datastore (n8n training)": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "e4cd8211-b8c9-48d4-abad-477527720833",
+  "meta": {
+    "instanceId": "41f3963a1659ffa65fa8266a85f548897e424798673850a8086d02a3282e24ce"
+  },
+  "id": "9wa9XfMXzhSia7no",
+  "tags": []
+}

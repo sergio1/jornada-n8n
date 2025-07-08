@@ -1,0 +1,274 @@
+{
+  "name": "auxiliar financeiro",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -540,
+        -420
+      ],
+      "id": "039d986d-a08a-4d87-a1ba-9f4063f71c2e",
+      "name": "When chat message received",
+      "webhookId": "14c21627-10db-4af5-8cb4-00cf3ff860a9"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=[Role]\nVocê é um assistente de finanças pessoais. Seu único objetivo é registrar despesas informadas pelo usuário.\n[Task]\n1. Receba a mensagem do usuário contendo um gasto.\n2. Identifique e extraia:\n   - Data do gasto (DD/MM/AAAA)\n   - Descrição do item\n   - Valor\n   - Moeda (BRL)\n   - Nome do fornecedor\n   - Tipo de despesa (pessoal ou empresarial)\n3. Se a moeda for BTC (Bitcoin), use a ferramenta de conversão antes de registrar o valor em BRL.\n4. Use a ferramenta de planilha para registrar os dados.\n[Tools]\n- Conversor de BTC: Retorna o valor atual de 1 BTC em BRL.\n- Planilha: Campos necessários — Data, Item, Valor (em BRL), Fornecedor, Tipo de Despesa.\n[Constraints]\n- Não responda nada fora do escopo de controle de despesas.\n- Se for questionado sobre outro assunto, diga: “Sou um assistente de controle financeiro e só posso registrar despesas.”\n- Nunca forneça respostas aleatórias.\n- Use a data atual como referência se o usuário não especificar.\n[Output]\nApós salvar, responda de forma curta e clara:\n\"Despesa registrada: [Item] – R$[valor convertido] em [data].\"\nExemplo de resposta:\n\"Despesa registrada: Pizza – R$52,30 em 17/06/2025.\"\n[Role]\nVocê é um assistente de finanças pessoais. Seu único objetivo é registrar despesas informadas pelo usuário.\n[Task]\n1. Receba a mensagem do usuário contendo um gasto.\n2. Identifique e extraia:\n   - Data do gasto (DD/MM/AAAA)\n   - Descrição do item\n   - Valor\n   - Moeda (BRL)\n   - Nome do fornecedor\n   - Tipo de despesa (pessoal ou empresarial)\n3. Se a moeda for BTC (Bitcoin), use a ferramenta de conversão antes de registrar o valor em BRL.\n4. Use a ferramenta de planilha para registrar os dados.\n[Tools]\n- Conversor de BTC: Retorna o valor atual de 1 BTC em BRL.\n- Planilha: Campos necessários — Data, Item, Valor (em BRL), Fornecedor, Tipo de Despesa.\n[Constraints]\n- Não responda nada fora do escopo de controle de despesas.\n- Se for questionado sobre outro assunto, diga: “Sou um assistente de controle financeiro e só posso registrar despesas.”\n- Nunca forneça respostas aleatórias.\n- Use a data atual como referência se o usuário não especificar.\n[Output]\nApós salvar, responda de forma curta e clara:\n\"Despesa registrada: [Item] – R$[valor convertido] em [data].\"\nExemplo de resposta:\n\"Despesa registrada: Pizza – R$52,30 em 17/06/2025.\"\n\nA data de hoje é: {{ $today }}\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -300,
+        -420
+      ],
+      "id": "53e15047-7405-4613-9c97-2206215c7f4d",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -680,
+        -100
+      ],
+      "id": "160ab024-23b8-4663-90f7-d3ea14ade42f",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "PtoLwphFZI4jBQAT",
+          "name": "Groq account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -500,
+        -220
+      ],
+      "id": "29b17f1b-4033-4a16-bc2c-565bcce7bdf7",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "TDpTUsPPIcPHtGWh",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 4
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -340,
+        -220
+      ],
+      "id": "4d26b115-774a-4f41-8944-ff212e82a57d",
+      "name": "Simple Memory",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1A0WqZ-nQEVWaosU6NfZSbBi2elMFLx5mzZzx7UgaTNU",
+          "mode": "list",
+          "cachedResultName": "meufinanceiro",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1A0WqZ-nQEVWaosU6NfZSbBi2elMFLx5mzZzx7UgaTNU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Página1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1A0WqZ-nQEVWaosU6NfZSbBi2elMFLx5mzZzx7UgaTNU/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "item": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('item', ``, 'string') }}",
+            "valor": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('valor', ``, 'string') }}",
+            "fornecedor": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fornecedor', ``, 'string') }}",
+            "tipo de despesa": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('tipo_de_despesa', ``, 'string') }}",
+            "date": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('date', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "item",
+              "displayName": "item",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "valor",
+              "displayName": "valor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "fornecedor",
+              "displayName": "fornecedor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "tipo de despesa",
+              "displayName": "tipo de despesa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.6,
+      "position": [
+        0,
+        -260
+      ],
+      "id": "0e2b9d12-551c-4e3e-990e-bf32131c2b60",
+      "name": "planilha",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "rCD6iL32n5e5Qf8C",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.coinbase.com/v2/prices/spot",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        -180,
+        -220
+      ],
+      "id": "9ffbf63e-e2c8-4241-a8ad-8d0d39943e11",
+      "name": "Conversor de BTC"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "planilha": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Conversor de BTC": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "acc20ade-0a24-4b41-866b-1c6d8e018f91",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "41f3963a1659ffa65fa8266a85f548897e424798673850a8086d02a3282e24ce"
+  },
+  "id": "03VdKbsw0MxcKpzw",
+  "tags": []
+}

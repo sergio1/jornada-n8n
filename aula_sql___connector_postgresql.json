@@ -1,0 +1,673 @@
+{
+  "name": "aula sql - connector postgresql",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -500,
+        -40
+      ],
+      "id": "9d5eb7e0-a737-4486-82dc-15928119aaa0",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "gastos"
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -260,
+        -160
+      ],
+      "id": "7342cec0-e688-4888-88aa-6526c8e8079d",
+      "name": "Get many rows",
+      "credentials": {
+        "supabaseApi": {
+          "id": "FoalJR5WTtKSfMop",
+          "name": "Supabase aula sql"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "value": "public",
+          "mode": "list",
+          "cachedResultName": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "gastos",
+          "mode": "list",
+          "cachedResultName": "gastos"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -260,
+        60
+      ],
+      "id": "0cc6a477-f64c-4613-a8e4-dc8534472711",
+      "name": "Select rows from a table",
+      "credentials": {
+        "postgres": {
+          "id": "yC5TfRKlGsXf9JhQ",
+          "name": "supabase n8n"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "47421d41-f5ca-4a22-bb6e-d263eabf6bdb",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        20,
+        -140
+      ],
+      "id": "3c5f2693-2032-4741-9a95-358110f182cf",
+      "name": "Webhook",
+      "webhookId": "47421d41-f5ca-4a22-bb6e-d263eabf6bdb"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "gastos",
+          "mode": "list",
+          "cachedResultName": "gastos"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "valor": "={{ $json.valor }}",
+            "item": "={{ $json.item }}",
+            "fornecedor": "={{ $json.fornecedor }}",
+            "tipo_despesa": "={{ $json.tipo_despesa }}",
+            "data": "={{ $json.data }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "item",
+              "displayName": "item",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "valor",
+              "displayName": "valor",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "fornecedor",
+              "displayName": "fornecedor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "tipo_despesa",
+              "displayName": "tipo_despesa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "data",
+              "displayName": "data",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        240,
+        -140
+      ],
+      "id": "754cbb34-5366-4bf8-a8d2-bda75b08f1b2",
+      "name": "Insert rows in a table",
+      "credentials": {
+        "postgres": {
+          "id": "yC5TfRKlGsXf9JhQ",
+          "name": "supabase n8n"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "PUT",
+        "path": "47421d41-f5ca-4a22-bb6e-d263eabf6bdb",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        20,
+        60
+      ],
+      "id": "bb5eed59-d36d-46c0-bd88-a108f59befad",
+      "name": "Webhook1",
+      "webhookId": "47421d41-f5ca-4a22-bb6e-d263eabf6bdb"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "gastos",
+          "mode": "list",
+          "cachedResultName": "gastos"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {
+            "valor": 0
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "item",
+              "displayName": "item",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "valor",
+              "displayName": "valor",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "fornecedor",
+              "displayName": "fornecedor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "tipo_despesa",
+              "displayName": "tipo_despesa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "data",
+              "displayName": "data",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        240,
+        60
+      ],
+      "id": "dad6d6cf-0234-411f-9881-fcaeda2673ab",
+      "name": "Update rows in a table",
+      "credentials": {
+        "postgres": {
+          "id": "yC5TfRKlGsXf9JhQ",
+          "name": "supabase n8n"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "DELETE",
+        "path": "47421d41-f5ca-4a22-bb6e-d263eabf6bdb",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        20,
+        240
+      ],
+      "id": "a63ea07c-42b6-4b79-8fc6-f2dd4986a5e5",
+      "name": "Webhook2",
+      "webhookId": "47421d41-f5ca-4a22-bb6e-d263eabf6bdb"
+    },
+    {
+      "parameters": {
+        "operation": "deleteTable",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "gastos",
+          "mode": "list",
+          "cachedResultName": "gastos"
+        },
+        "deleteCommand": "delete",
+        "where": {
+          "values": [
+            {
+              "column": "id",
+              "value": "={{ $json.id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        240,
+        240
+      ],
+      "id": "b0f32911-9b14-45e3-ba1e-fb0f25b98da7",
+      "name": "Delete table or rows",
+      "credentials": {
+        "postgres": {
+          "id": "yC5TfRKlGsXf9JhQ",
+          "name": "supabase n8n"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=[Role]\nVocê é um agente de IA especializado em controle financeiro pessoal.\n\n[Objective]\nSeu único objetivo é registrar despesas informadas pelo usuário no banco de dados. \n\n[Tools]\nVocê vai usar o banco postgres para salvar os itens\n\n[Task]\n1. Identifique os seguintes campos na mensagem do usuário:\n   - item: o que foi comprado ou gasto\n   - valor: o custo total (em reais)\n   - data: a data da despesa (relativa ou explícita)\n   - fornecedor: o local ou serviço associado (opcional)\n   - tipo_despesa: categoria como pessoal, empresarial, alimentação, etc.\n\n2. Use a ferramenta de banco de dados para inserir os dados extraídos na tabela `gastos`.\n\n3. Use a data atual se o usuário disser “hoje” e subtraia um dia se disser “ontem”.\n[Constraints]\n- Não responda perguntas fora do escopo de controle de despesas.\n- Se a mensagem não contiver um valor claro, solicite que o usuário informe.\n- Sempre utilize ponto (.) como separador decimal.\n- Nunca tente adivinhar dados que não foram ditos.\n\n[Output]\nApós salvar os dados, responda com:\n\"✅ Despesa registrada: [item] – R$[valor] em [data].\"\n\nSe houver erro, diga:\n\"❌ Não consegui registrar a despesa. Pode repetir com mais deta\n\nA data de hoje é {{ $now }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -1200,
+        400
+      ],
+      "id": "ab17d2ca-c0a3-42fa-a75c-beba91b9d8f4",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -1380,
+        400
+      ],
+      "id": "f8994888-8d71-4f69-957c-348d467c759b",
+      "name": "When chat message received",
+      "webhookId": "a782ec49-1905-421f-82c9-364bb1ba3345"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -1260,
+        580
+      ],
+      "id": "991773b4-00d6-4388-beee-60a427bcd4e3",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "TDpTUsPPIcPHtGWh",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 2
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -1120,
+        600
+      ],
+      "id": "2db145c0-bd1e-42ac-9608-334c621bfe67",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "gastos",
+          "mode": "list",
+          "cachedResultName": "gastos"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "item": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('item', ``, 'string') }}",
+            "valor": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('valor', ``, 'number') }}",
+            "fornecedor": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('fornecedor', ``, 'string') }}",
+            "tipo_despesa": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('tipo_despesa', ``, 'string') }}",
+            "data": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('data', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "item",
+              "displayName": "item",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "valor",
+              "displayName": "valor",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "fornecedor",
+              "displayName": "fornecedor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "tipo_despesa",
+              "displayName": "tipo_despesa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "data",
+              "displayName": "data",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.6,
+      "position": [
+        -940,
+        580
+      ],
+      "id": "ef7e4b71-3113-49ec-9e81-2e59594fbb78",
+      "name": "Insert rows in a table in Postgres",
+      "credentials": {
+        "postgres": {
+          "id": "yC5TfRKlGsXf9JhQ",
+          "name": "supabase n8n"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "item": "Pizza",
+          "valor": 2000.5,
+          "fornecedor": "Dominos",
+          "tipo_despesa": "pessoal",
+          "data": "2025-06-22"
+        }
+      }
+    ],
+    "Webhook1": [
+      {
+        "json": {
+          "id": "a0681f7b-fefc-4353-a4aa-df9346146533",
+          "item": "Notebook",
+          "valor": 500,
+          "fornecedor": "Dell",
+          "tipo_despesa": "empresarial",
+          "data": "2025-06-03T00:00:00.000Z"
+        }
+      }
+    ],
+    "Webhook2": [
+      {
+        "json": {
+          "id": "a0681f7b-fefc-4353-a4aa-df9346146533"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Select rows from a table",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get many rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows": {
+      "main": [
+        []
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Insert rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Update rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook2": {
+      "main": [
+        [
+          {
+            "node": "Delete table or rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert rows in a table in Postgres": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "becc82ef-6f8a-4f42-8f75-d300b2ef34d8",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "41f3963a1659ffa65fa8266a85f548897e424798673850a8086d02a3282e24ce"
+  },
+  "id": "ylKIuSE0DbjRKfND",
+  "tags": []
+}
