@@ -1,0 +1,64 @@
+{
+  "name": "Segundo Workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -280,
+        -40
+      ],
+      "id": "4087299c-b156-4ce0-90e7-9023934682b8",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "sendTo": "sergiombe@gmail.com",
+        "subject": "Hello Word!!!",
+        "message": "teste",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -60,
+        -40
+      ],
+      "id": "5a6400c2-bb2b-4e76-977e-15ce991516c0",
+      "name": "Send a message",
+      "webhookId": "ec0aa249-fa1d-4126-b62f-b9f6f2e371e7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "2VmY3l6aWRxbGhFJ",
+          "name": "Gmail account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "85d515ed-a566-48aa-819c-e102de1f1196",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ac413725f6d5ea45ef49e0c0bbb1a3e0def291756e1aca7b3ae7b8b405d0e6e0"
+  },
+  "id": "m9s2QJalSNUerYM1",
+  "tags": []
+}
